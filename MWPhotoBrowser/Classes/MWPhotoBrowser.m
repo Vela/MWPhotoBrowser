@@ -177,12 +177,12 @@
     if (self.displayNavArrows) {
         NSString *arrowPathFormat;
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7")) {
-            arrowPathFormat = @"MWPhotoBrowser.bundle/images/UIBarButtonItemArrowOutline%@.png";
+            arrowPathFormat = @"images/UIBarButtonItemArrowOutline%@.png";
         } else {
-            arrowPathFormat = @"MWPhotoBrowser.bundle/images/UIBarButtonItemArrow%@.png";
+            arrowPathFormat = @"images/UIBarButtonItemArrow%@.png";
         }
-        _previousButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:arrowPathFormat, @"Left"]] style:UIBarButtonItemStylePlain target:self action:@selector(gotoPreviousPage)];
-        _nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:arrowPathFormat, @"Right"]] style:UIBarButtonItemStylePlain target:self action:@selector(gotoNextPage)];
+        _previousButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:arrowPathFormat, @"Left"] inBundle:[MWPhotoBrowser imageBundle] compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(gotoPreviousPage)];
+        _nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:arrowPathFormat, @"Right"] inBundle:[MWPhotoBrowser imageBundle] compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(gotoNextPage)];
     }
     if (self.displayActionButton) {
         _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
@@ -257,7 +257,7 @@
         hasItems = YES;
         NSString *buttonName = @"UIBarButtonItemGrid";
         if (SYSTEM_VERSION_LESS_THAN(@"7")) buttonName = @"UIBarButtonItemGridiOS6";
-        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"MWPhotoBrowser.bundle/images/%@.png", buttonName]] style:UIBarButtonItemStylePlain target:self action:@selector(showGridAnimated)]];
+        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"images/%@.png", buttonName] inBundle:[MWPhotoBrowser imageBundle] compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(showGridAnimated)]];
     } else {
         [items addObject:fixedSpace];
     }
@@ -833,8 +833,8 @@
             // Add selected button
             if (self.displaySelectionButtons) {
                 UIButton *selectedButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                [selectedButton setImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/ImageSelectedOff.png"] forState:UIControlStateNormal];
-                [selectedButton setImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/ImageSelectedOn.png"] forState:UIControlStateSelected];
+                [selectedButton setImage:[UIImage imageNamed:@"images/ImageSelectedOff.png" inBundle:[MWPhotoBrowser imageBundle] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+                [selectedButton setImage:[UIImage imageNamed:@"images/ImageSelectedOn.png" inBundle:[MWPhotoBrowser imageBundle] compatibleWithTraitCollection:nil] forState:UIControlStateSelected];
                 [selectedButton sizeToFit];
                 selectedButton.adjustsImageWhenHighlighted = NO;
                 [selectedButton addTarget:self action:@selector(selectedButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -1561,7 +1561,7 @@
         // The sample image is based on the
         // work by: http://www.pixelpressicons.com
         // licence: http://creativecommons.org/licenses/by/2.5/ca/
-        self.progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/Checkmark.png"]];
+        self.progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"images/Checkmark.png" inBundle:[MWPhotoBrowser imageBundle] compatibleWithTraitCollection:nil]];
         [self.view addSubview:_progressHUD];
     }
     return _progressHUD;
@@ -1660,6 +1660,17 @@
 		[alert show];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Image Bundle
++ (NSBundle*)imageBundle{
+    static NSBundle *imageBundle = nil;
+    if (!imageBundle) {
+        NSBundle *bundle = [NSBundle bundleForClass:self.class];
+        NSURL *url = [bundle URLForResource:@"MWPhotoBrowser" withExtension:@"bundle"];
+        imageBundle = [NSBundle bundleWithURL:url];
+    }
+    return imageBundle;
 }
 
 @end

@@ -66,7 +66,6 @@
     BOOL _skipNextPagingScrollViewPositioning;
     BOOL _viewHasAppearedInitially;
     CGPoint _currentGridContentOffset;
-    
 }
 
 // Properties
@@ -131,6 +130,9 @@
 - (void)savePhoto;
 - (void)copyPhoto;
 - (void)emailPhoto;
+
+// Image bundle
++ (NSBundle*)imageBundle;
 
 @end
 
