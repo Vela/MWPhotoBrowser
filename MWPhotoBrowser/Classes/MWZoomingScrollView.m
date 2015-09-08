@@ -105,7 +105,7 @@
     }
     _photo = photo;
     UIImage *img = [_photoBrowser imageForPhoto:_photo];
-    if (img) {
+    if (img || _photo.underlyingImage ) {
         [self displayImage];
     } else {
         // Will be loading so show loading
