@@ -298,8 +298,19 @@
     NSAssert([[NSThread currentThread] isMainThread], @"This method must be called on the main thread.");
     // Complete so notify
     _loadingInProgress = NO;
-    // Notify on next run loop
-    [self performSelector:@selector(postCompleteNotification) withObject:nil afterDelay:0];
+    
+    //
+    //FIX an thumbnail loading bug: while scrolling, even if images are loaded, cell will not update until scrolling is stopped
+    //
+    //This is casused by delaying sending the complete notification
+    //
+    //
+    [[NSNotificationCenter defaultCenter] postNotificationName:MWPHOTO_LOADING_DID_END_NOTIFICATION
+                                                        object:self];
+    
+
+//    // Notify on next run loop
+//    [self performSelector:@selector(postCompleteNotification) withObject:nil afterDelay:0];
 }
 
 - (void)postCompleteNotification {
