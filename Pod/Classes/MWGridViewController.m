@@ -111,8 +111,8 @@
 
 - (void)performLayout {
     UINavigationBar *navBar = self.navigationController.navigationBar;
-    self.collectionView.contentInset = UIEdgeInsetsMake(navBar.frame.origin.y + navBar.frame.size.height + [self getGutter], 0, 0, 0);
-}
+    CGRect toolbarFrame = [self.browser frameForToolbarAtOrientation:[UIApplication sharedApplication].statusBarOrientation];
+    self.collectionView.contentInset = UIEdgeInsetsMake(navBar.frame.origin.y + navBar.frame.size.height + [self getGutter], 0,toolbarFrame.size.height, 0);}
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self.collectionView reloadData];
