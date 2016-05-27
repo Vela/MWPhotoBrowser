@@ -1641,4 +1641,24 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     self.navigationController.navigationBar.userInteractionEnabled = YES;
 }
 
+
+
+#pragma mark -- reloadImageViewAtIndex -
+- (void)reloadImageViewAtIndex:(NSUInteger)index{
+    if (_gridController){
+        if (_thumbPhotos.count > 0 && index < _thumbPhotos.count - 1){
+            _thumbPhotos[index] = [NSNull null];
+            [_gridController.collectionView reloadItemsAtIndexPaths: [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil]];
+        }
+    }else{
+        if (_photos.count > 0 && index < _photos.count -1){
+            _photos[index] = [NSNull null];
+            if (_currentPageIndex == index){
+                [self setCurrentPhotoIndex:index];
+            }
+        }
+    
+    }
+}
+
 @end
