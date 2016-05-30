@@ -1644,7 +1644,23 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
 
 #pragma mark -- reloadImageViewAtIndex -
+- (void)releaseUnderlyingPhotoAtIndex:(NSUInteger)index{
+    // Release photo
+    if (index < _photos.count && index < _thumbPhotos.count){
+        MWPhoto *originP = _photos[index];
+        if (originP != [NSNull null]) {
+            [originP unloadUnderlyingImage];
+        }
+        // Release thumbnail
+        MWPhoto *thumbnailPhoto = _thumbPhotos[index];
+        if (thumbnailPhoto != [NSNull null]){
+            [thumbnailPhoto unloadUnderlyingImage];
+        }
+    }
+
+}
 - (void)reloadImageViewAtIndex:(NSUInteger)index{
+    [self releaseUnderlyingPhotoAtIndex:index];
     if (_gridController){
         if (_thumbPhotos.count > 0 && index < _thumbPhotos.count){
             _thumbPhotos[index] = [NSNull null];
