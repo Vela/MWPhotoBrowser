@@ -1537,6 +1537,9 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                 [self showGrid:YES];
                 return;
             } else if (!self.startOnGrid && _gridController) {
+                if([_delegate respondsToSelector:@selector(gridViewWillHideInPhotoBrowser:)]){
+                    [_delegate gridViewWillHideInPhotoBrowser:self];
+                }
                 [self hideGrid];
                 return;
             }
