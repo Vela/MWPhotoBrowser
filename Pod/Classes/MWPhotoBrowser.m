@@ -1669,9 +1669,10 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     }else{
         if (_photos.count > 0 && index < _photos.count){
             _photos[index] = [NSNull null];
-            if (_currentPageIndex == index){
-                [self setCurrentPhotoIndex:index];
-            }
+            MWPhoto *photo = [self photoAtIndex:index];
+            MWZoomingScrollView *currentScrollView = [self pageDisplayedAtIndex: index];
+            [currentScrollView setPhoto:photo];
+    
         }
     
     }
